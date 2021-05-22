@@ -4,6 +4,8 @@ import aiofiles
 import aiohttp
 import logging
 import os
+import pickle
+from os import path
 from .finescanner import DocExportType, DocLangType, FineScannerTask, FineUser
 
 import argparse
@@ -81,11 +83,17 @@ async def start() -> None:
     pass
     fine_scanner_session = aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=1800,
                                                                                connect=100,
-                                                                               sock_connect=100,
-                                                                               sock_read=60))
+                                                                               sock_connect=100))
     fstat = os.stat(args.source_file)
     fname = os.path.basename(args.source_file)
-    token = await (await FineUser.create_new(fine_scanner_session)).get_token()
+    config_path = path.expanduser("~") + path.sep + '.fineocr'
+    try:
+        fine_user_uuid = pickle.load(open(config_path, mode='rb'))
+        fine_user = FineUser(fine_user_uuid, fine_scanner_session)
+    except FileNotFoundError:
+        fine_user = await FineUser.create_new(fine_scanner_session)
+        pickle.dump(fine_user.uuid, open(config_path, mode='wb'))
+    token = await fine_user.get_token()
     ftask = FineScannerTask(token, fine_scanner_session)
     async with aiofiles.open(args.source_file, mode='rb') as file:
         await ftask.upload_file(file, fname, fstat.st_size)
@@ -104,7 +112,7 @@ async def start() -> None:
             async for data in await ftask.get_result():
                 await rfile.write(data)
     else:
-        raise status
+        raise Exception(status)
 
     await fine_scanner_session.close()
 
