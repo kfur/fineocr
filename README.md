@@ -3,6 +3,9 @@
 - - -
 **Usage of this program intended exceptionally for acquainting purposes**
 - - -
+
+You can OCR `pdf`, `jpg`, `jpeg`, `tif`, `tiff`, `bmp`, `png` files to any supported format.
+
 #### Supported export formats:
 - Docx
 - Pdf
