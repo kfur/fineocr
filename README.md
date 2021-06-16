@@ -1,3 +1,8 @@
+# ABBYY FineReader Online CLI.
+
+- - -
+**Usage of this program intended exceptionally for acquainting purposes**
+- - -
 #### Supported export formats:
 - Docx
 - Pdf
