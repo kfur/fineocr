@@ -3,11 +3,11 @@ import setuptools
 
 setuptools.setup(
     name="fineocr",
-    version="0.1",
+    version="0.3",
     url="https://github.com/kfur/fineocr",
-    download_url='https://github.com/kfur/fineocr/archive/refs/tags/v0.1.tar.gz',
+    download_url='https://github.com/kfur/fineocr/archive/refs/tags/v0.3.tar.gz',
 
-    author="Denis Skovpen",
+    author="kfur",
     author_email="deniskovpen@gmail.com",
 
     description="FineScanner Mobile OCR for free",
